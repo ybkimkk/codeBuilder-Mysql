@@ -1,0 +1,10 @@
+packageName: com.keyboard.app
+build:
+mysql:
+  host: localhost
+  port: 3306
+  database: keyboard
+  table: user
+  username: root
+  password: 123456
+  encoding: UTF-8

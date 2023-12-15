@@ -1,0 +1,5 @@
+#macro(firstStrUpper $input)
+    #set($firstChar = $input.substring(0, 1).toUpperCase())
+    #set($restOfStr = $input.substring(1))
+    $firstChar$restOfStr
+#end
