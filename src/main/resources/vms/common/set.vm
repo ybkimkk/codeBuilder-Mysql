@@ -1,0 +1,2 @@
+#set($firstUpTableName = ${tool.firstStrUpper($tableName)})
+#set($firstLoTableName = ${tool.firstStrLower($tableName)})

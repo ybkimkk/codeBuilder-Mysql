@@ -1,0 +1,39 @@
+#parse("/vms/common/set.vm")
+package ${packageName}.service;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import ${packageName}.entity.request.${firstUpTableName}PageRequest;
+import ${packageName}.entity.response.${firstUpTableName}Response;
+import ${packageName}.entity.globalEntity.R;
+import ${packageName}.entity.request.base.${firstUpTableName}Request;
+
+import java.util.List;
+
+/**
+ * @author jinyongbin
+ * @since  $date.get('yyyy-MM-dd HH:mm:ss')
+ */
+
+public interface ${firstUpTableName}Service {
+    R<${firstUpTableName}Response> selectByCondition(${firstUpTableName}Request request) throws NullPointerException;
+
+    R<${firstUpTableName}Response> selectById(Integer request) throws NullPointerException;
+
+    R<Page<${firstUpTableName}Response>> selectByPage(${firstUpTableName}PageRequest request) throws NullPointerException;
+
+    R<Integer> updateByCondition(${firstUpTableName}Request request);
+
+    R<Integer>  updateBatch(List<${firstUpTableName}Request> request);
+
+    R<Integer>  deleteByCondition(${firstUpTableName}Request request);
+
+    R<Integer>  deleteById(${firstUpTableName}Request request);
+
+    R<Integer>  deleteBatch(List<${firstUpTableName}Request> request);
+
+    R<Integer>  insert(${firstUpTableName}Request request);
+
+    R<Integer>  insertBatch(List<${firstUpTableName}Request> request);
+}
+

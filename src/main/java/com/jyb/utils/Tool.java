@@ -4,6 +4,8 @@ import com.google.common.base.CaseFormat;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 /**
  * @author jinyongbin
  * @version 1.0
@@ -17,6 +19,10 @@ public class Tool {
 
     public String firstStrUpper(String str) {
         return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, str);
+    }
+
+    public String firstStrLower(String str) {
+        return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, str);
     }
 
     public String getFile(String str) {

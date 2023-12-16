@@ -1,0 +1,28 @@
+#parse("/vms/common/set.vm")
+package ${packageName}.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import ${packageName}.entity.${firstUpTableName}Entity;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+/**
+ * @author jinyongbin
+ * @since  $date.get('yyyy-MM-dd HH:mm:ss')
+ */
+
+@Mapper
+public interface ${firstUpTableName}Mapper extends BaseMapper<${firstUpTableName}Entity> {
+    List<${firstUpTableName}Entity> selectByCondition(@Param("arg") ${firstUpTableName}Entity arg);
+
+    Page<${firstUpTableName}Entity> selectByConditionPage(@Param("arg") ${firstUpTableName}Entity arg, @Param("page") Page<${firstUpTableName}Entity> page);
+
+    Integer deleteByCondition(${firstUpTableName}Entity arg);
+
+    Integer updateBatch(@Param("arg") List<${firstUpTableName}Entity> arg);
+
+    Integer insertBatch(@Param("arg") List<${firstUpTableName}Entity> arg);
+}

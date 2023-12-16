@@ -1,76 +1,110 @@
-#parse("vms/macro/common.vm")
-#set($firstUpTableName = ${tool.firstStrUpper($tableName)})
-package ${packageName}.controller;
+#parse("/vms/common/set.vm")
+package ${packageName}.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import packageName.service.${tableName}Service;
+import ${packageName}.entity.${firstUpTableName}Entity;
+import ${packageName}.convert.${firstUpTableName}Convert;
+import ${packageName}.mapper.${firstUpTableName}Mapper;
+import ${packageName}.service.${firstUpTableName}Service;
 import ${packageName}.entity.request.${firstUpTableName}PageRequest;
-import ${packageName}.plugin.ResponseEntity.R;
-import ${packageName}.plugin.exception.ServiceException;
-import ${packageName}.entity.request.base.UserRequest;
+import ${packageName}.entity.ResponseEntity.R;
+import ${packageName}.entity.request.base.${firstUpTableName}Request;
 import ${packageName}.entity.response.${firstUpTableName}Response;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
-    * @author jinyongbin
-    * @since 2023-07-13
-*/
+ * @author jinyongbin
+ * @since  $date.get('yyyy-MM-dd HH:mm:ss')
+ */
 
-@RestController
+@Service("${firstLoTableName}Service")
 @RequiredArgsConstructor
-@RequestMapping("${tableName}")
-public class ${firstUpTableName}Controller {
+public class ${firstUpTableName}ServiceImpl implements ${firstUpTableName}Service {
 
-    private final ${firstUpTableName}Service ${tableName}Service;
+    private final SqlSessionTemplate sqlSessionTemplate;
 
-    @PostMapping("selectByCondition")
-    public R<${firstUpTableName}Response> selectByCondition(@RequestBody ${firstUpTableName}Request request) throws ServiceException {
-        return ${tableName}Service.selectByCondition(request);
+    @Override
+    public R<${firstUpTableName}Response> selectByCondition(${firstUpTableName}Request request) throws NullPointerException {
+        ${firstUpTableName}Mapper mapper = sqlSessionTemplate.getMapper(${firstUpTableName}Mapper.class);
+        List<${firstUpTableName}> ${firstLoTableName} = mapper.selectByCondition(${firstUpTableName}Convert.INSTANCE.reqToEntity(request));
+        ${firstUpTableName} result = ${firstLoTableName}.stream().findFirst().orElseThrow(() -> new NullPointerException('NO DATA'));
+        return R.ok(${firstUpTableName}Convert.INSTANCE.doToResp(result));
     }
 
-    @PostMapping("selectByPage")
-    public R<Page<${firstUpTableName}Response>> selectByPage(@RequestBody UserPageRequest request) throws ServiceException {
-        return ${tableName}Service.selectByPage(request);
+    @Override
+    public R<${firstUpTableName}Response> selectById(Long id) throws NullPointerException {
+        ${firstUpTableName}Request ${firstLoTableName}Request = new ${firstUpTableName}Request();
+        ${firstLoTableName}Request.setId(id);
+        return selectByCondition(${firstLoTableName}Request);
     }
 
-    @GetMapping("{id}")
-    public R<${firstUpTableName}Response> selectById(@PathVariable("id") Long id) throws ServiceException {
-        return ${tableName}Service.selectById(id);
+    @Override
+    public R<Page<${firstUpTableName}Response>> selectByPage(${firstUpTableName}PageRequest request) throws NullPointerException {
+        ${firstUpTableName} ${firstLoTableName} = ${firstUpTableName}Convert.INSTANCE.reqToEntity(request);
+        ${firstUpTableName}Mapper mapper = sqlSessionTemplate.getMapper(${firstUpTableName}Mapper.class);
+        Page<${firstUpTableName}> page = new Page<>(request.getPage(), request.getSize(), mapper.selectCount(new QueryWrapper<>()));
+        Page<${firstUpTableName}> doPage = mapper.selectByConditionPage(${firstLoTableName}, page);
+        if (CollectionUtils.isEmpty(doPage.getRecords())) {
+            throw new NullPointerException('NO DATA');
+        }
+        return R.ok(${firstUpTableName}Convert.INSTANCE.doPageToRespPage(doPage));
     }
 
-    @PostMapping("updateByCondition")
-    public R<Integer> updateByCondition(@RequestBody ${firstUpTableName}Request request) {
-        return ${tableName}Service.updateByCondition(request);
+    @Override
+    public R<Integer> updateByCondition(${firstUpTableName}Request request) {
+        ${firstUpTableName}Mapper mapper = sqlSessionTemplate.getMapper(${firstUpTableName}Mapper.class);
+        return R.ok(mapper.updateById(${firstUpTableName}Convert.INSTANCE.reqToEntity(request)));
     }
 
-    @PostMapping("updateBatch")
-    public R<Integer> updateBatch(@RequestBody List<${firstUpTableName}Request> request) {
-        return ${tableName}Service.updateBatch(request);
+    @Override
+    public R<Integer> updateBatch(List<${firstUpTableName}Request> request) {
+        ${firstUpTableName}Mapper mapper = sqlSessionTemplate.getMapper(${firstUpTableName}Mapper.class);
+        return R.ok(mapper.updateBatch(${firstUpTableName}Convert.INSTANCE.reqListToEntityList(request)));
     }
 
-    @PostMapping("insert")
-    public R<Integer> insert(@RequestBody ${firstUpTableName}Request request) {
-        return ${tableName}Service.insert(request);
+    @Override
+    public R<Integer> deleteByCondition(${firstUpTableName}Request request) {
+        if (Objects.nonNull(request.getId())) {
+            return deleteById(request);
+        }
+        return deleteBatch(Collections.singletonList(request));
     }
 
-    @PostMapping("insertBatch")
-    public R<Integer> insertBatch(@RequestBody List<${firstUpTableName}Request> request) {
-        return ${tableName}Service.insertBatch(request);
+    @Override
+    public R<Integer> deleteById(${firstUpTableName}Request request) {
+        ${firstUpTableName}Mapper mapper = sqlSessionTemplate.getMapper(${firstUpTableName}Mapper.class);
+        return R.ok(mapper.deleteById(request.getId()));
     }
 
-    @PostMapping("deleteById")
-    public R<Integer> deleteById(@RequestBody ${firstUpTableName}Request request) {
-        return ${tableName}Service.deleteById(request);
+    @Override
+    public R<Integer> deleteBatch(List<${firstUpTableName}Request> request) {
+        try {
+            List<Long> ids = request.stream().map(${firstUpTableName}Request::getId).collect(Collectors.toList());
+            ${firstUpTableName}Mapper mapper = sqlSessionTemplate.getMapper(${firstUpTableName}Mapper.class);
+            return R.ok(mapper.deleteBatchIds(ids));
+        } catch (Exception e) {
+            return R.error("删除异常");
+        }
     }
 
-    @PostMapping("deleteByCondition")
-    public R<Integer> deleteByCondition(@RequestBody ${firstUpTableName}Request request) {
-        return ${tableName}Service.deleteByCondition(request);
+    @Override
+    public R<Integer> insert(${firstUpTableName}Request request) {
+        ${firstUpTableName}Mapper mapper = sqlSessionTemplate.getMapper(${firstUpTableName}Mapper.class);
+        return R.ok(mapper.insert(${firstUpTableName}Convert.INSTANCE.reqToEntity(request)));
+    }
+
+    @Override
+    public R<Integer> insertBatch(List<${firstUpTableName}Request> request) {
+        ${firstUpTableName}Mapper mapper = sqlSessionTemplate.getMapper(${firstUpTableName}Mapper.class);
+        return R.ok(mapper.insertBatch(${firstUpTableName}Convert.INSTANCE.reqListToEntityList(request)));
     }
 }
-
-

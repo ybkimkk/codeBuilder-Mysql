@@ -1,0 +1,27 @@
+#macro(getSqlToJavaType $param)
+
+    #set($typeName = $param.getTypeName())
+    #set($columnName = $tool.firstStrLower($param.getColumnName()))
+    #if($param.getPrimaryKey())
+    @TableId
+    #end
+    #if($typeName.equals("INT")||$typeName.equals("TINYINT")||$typeName.equals("SMALLINT")||$typeName.equals(
+        "MEDIUMINT")||$typeName.equals("BIGINT"))
+    private Long $columnName;
+    #elseif($typeName.equals("VARCHAR")||$typeName.equals("CHAR")||$typeName.equals("TEXT")||$typeName.equals(
+        "MEDIUMTEXT")||$typeName.equals("LONGTEXT"))
+    private String $columnName;
+    #elseif($typeName.equals("DATETIME")||$typeName.equals("DATE")||$typeName.equals("TIME"))
+    private Date $columnName;
+    #else
+    private String $columnName;
+    #end
+#end
+
+#macro(entityImport)
+    #foreach($param in $import)
+        #if($param.equals("DATETIME")||$param.equals("DATE")||$param.equals("TIME"))
+import java.util.Date;
+        #end
+    #end
+#end

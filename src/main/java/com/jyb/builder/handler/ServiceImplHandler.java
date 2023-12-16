@@ -18,18 +18,9 @@ import java.io.IOException;
  */
 @Component
 public class ServiceImplHandler extends BuildHandler {
-    @Autowired
-    private VelocityEngine velocityEngine;
-
-    @Autowired
-    private ToolContext toolContext;
-
-    @Autowired
-    private Tool tool;
 
     @Value("${mysql.table}")
     private String tableName;
-
 
     @Override
     public void operate() throws IOException {

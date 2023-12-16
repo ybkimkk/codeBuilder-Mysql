@@ -1,4 +1,4 @@
-package com.jyb.domain;
+package com.jyb.entity;
 
 import lombok.Data;
 
@@ -12,4 +12,5 @@ public class TableInfo {
     private String columnName;
     private String typeName;
     private Integer columnSize;
+    private Boolean primaryKey = false;
 }

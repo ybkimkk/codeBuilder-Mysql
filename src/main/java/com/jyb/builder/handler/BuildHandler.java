@@ -23,15 +23,15 @@ import java.io.IOException;
 public abstract class BuildHandler {
 
     @Autowired
-    private VelocityEngine velocityEngine;
+    protected VelocityEngine velocityEngine;
 
     @Autowired
-    private ToolContext toolContext;
+    protected ToolContext toolContext;
 
     @Autowired
-    private Tool tool;
+    protected Tool tool;
 
-    void checkParentFile(String path) {
+    protected void checkParentFile(String path) {
         File file = new File(path);
         File parentFile = file.getParentFile();
         if (!parentFile.exists()) {
@@ -39,7 +39,7 @@ public abstract class BuildHandler {
         }
     }
 
-    public void operate(String file) throws IOException {
+    protected void operate(String file) throws IOException {
         String path = tool.getFile(file);
         checkParentFile(path);
         Template template = velocityEngine.getTemplate("vms/" + file + ".java.vm");

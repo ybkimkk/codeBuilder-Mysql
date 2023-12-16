@@ -1,6 +1,6 @@
 package com.jyb.config;
 
-import com.jyb.domain.TableInfo;
+import com.jyb.entity.TableInfo;
 import com.jyb.utils.Tool;
 import lombok.RequiredArgsConstructor;
 import org.apache.velocity.app.Velocity;
@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author jinyongbin
@@ -69,6 +70,7 @@ public class VelocityConfig {
         context.put("tableName", tableName);
         context.put("packageName", packageName);
         context.put("tool", tool);
+        context.put("import", tableInfo.stream().map(TableInfo::getTypeName).collect(Collectors.toSet()));
         return context;
     }
 
@@ -79,12 +81,30 @@ public class VelocityConfig {
         ResultSet columns = metaData.getColumns(null, null, tableName, null);
         List<TableInfo> tableInfos = new ArrayList<>();
         while (columns.next()) {
+            if ("Host".equals(columns.getString("COLUMN_NAME"))) {
+                break;
+            }
             TableInfo tableInfo = new TableInfo();
             tableInfo.setColumnName(columns.getString("COLUMN_NAME"));
             tableInfo.setTypeName(columns.getString("TYPE_NAME"));
             tableInfo.setColumnSize(columns.getInt("COLUMN_SIZE"));
             tableInfos.add(tableInfo);
         }
+        ResultSet primaryKeys = metaData.getPrimaryKeys(null, null, tableName);
+        String primaryKey = "";
+        while (primaryKeys.next()) {
+            if ("Host".equals(primaryKeys.getString("COLUMN_NAME"))) {
+                break;
+            }
+            primaryKey = primaryKeys.getString("COLUMN_NAME");
+
+        }
+        for (TableInfo tableInfo : tableInfos) {
+            if (tableInfo.getColumnName().equals(primaryKey)) {
+                tableInfo.setPrimaryKey(true);
+            }
+        }
+
         return tableInfos;
     }
 

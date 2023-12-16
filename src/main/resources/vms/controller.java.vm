@@ -1,12 +1,10 @@
-#parse("vms/macro/common.vm")
-#set($firstUpTableName = ${tool.firstStrUpper($tableName)})
+#parse("/vms/common/set.vm")
 package ${packageName}.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import packageName.service.${tableName}Service;
 import ${packageName}.entity.request.${firstUpTableName}PageRequest;
-import ${packageName}.plugin.ResponseEntity.R;
-import ${packageName}.plugin.exception.ServiceException;
+import ${packageName}.entity.globalEntity.R;
 import ${packageName}.entity.request.base.UserRequest;
 import ${packageName}.entity.response.${firstUpTableName}Response;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +15,7 @@ import java.util.List;
 
 /**
     * @author jinyongbin
-    * @since 2023-07-13
+    * @since  $date.get('yyyy-MM-dd HH:mm:ss')
 */
 
 @RestController
@@ -28,17 +26,17 @@ public class ${firstUpTableName}Controller {
     private final ${firstUpTableName}Service ${tableName}Service;
 
     @PostMapping("selectByCondition")
-    public R<${firstUpTableName}Response> selectByCondition(@RequestBody ${firstUpTableName}Request request) throws ServiceException {
+    public R<${firstUpTableName}Response> selectByCondition(@RequestBody ${firstUpTableName}Request request) throws NullPointerException {
         return ${tableName}Service.selectByCondition(request);
     }
 
     @PostMapping("selectByPage")
-    public R<Page<${firstUpTableName}Response>> selectByPage(@RequestBody UserPageRequest request) throws ServiceException {
+    public R<Page<${firstUpTableName}Response>> selectByPage(@RequestBody UserPageRequest request) throws NullPointerException {
         return ${tableName}Service.selectByPage(request);
     }
 
     @GetMapping("{id}")
-    public R<${firstUpTableName}Response> selectById(@PathVariable("id") Long id) throws ServiceException {
+    public R<${firstUpTableName}Response> selectById(@PathVariable("id") Long id) throws NullPointerException {
         return ${tableName}Service.selectById(id);
     }
 
