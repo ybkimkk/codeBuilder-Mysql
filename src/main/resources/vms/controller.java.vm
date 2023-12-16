@@ -2,13 +2,12 @@
 package ${packageName}.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import packageName.service.${tableName}Service;
-import ${packageName}.entity.request.${firstUpTableName}PageRequest;
-import ${packageName}.entity.globalEntity.R;
-import ${packageName}.entity.request.base.UserRequest;
-import ${packageName}.entity.response.${firstUpTableName}Response;
+import ${packageName}.service.${firstUpTableName}Service;
+import ${packageName}.entity.request.page.${firstUpTableName}PageRequestEntity;
+import ${packageName}.entity.common.R;
+import ${packageName}.entity.request.${firstUpTableName}RequestEntity;
+import ${packageName}.entity.response.${firstUpTableName}ResponseEntity;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,47 +25,47 @@ public class ${firstUpTableName}Controller {
     private final ${firstUpTableName}Service ${tableName}Service;
 
     @PostMapping("selectByCondition")
-    public R<${firstUpTableName}Response> selectByCondition(@RequestBody ${firstUpTableName}Request request) throws NullPointerException {
+    public R<${firstUpTableName}ResponseEntity> selectByCondition(@RequestBody ${firstUpTableName}RequestEntity request) throws NullPointerException {
         return ${tableName}Service.selectByCondition(request);
     }
 
     @PostMapping("selectByPage")
-    public R<Page<${firstUpTableName}Response>> selectByPage(@RequestBody UserPageRequest request) throws NullPointerException {
+    public R<Page<${firstUpTableName}ResponseEntity>> selectByPage(@RequestBody ${firstUpTableName}PageRequestEntity request) throws NullPointerException {
         return ${tableName}Service.selectByPage(request);
     }
 
     @GetMapping("{id}")
-    public R<${firstUpTableName}Response> selectById(@PathVariable("id") Long id) throws NullPointerException {
+    public R<${firstUpTableName}ResponseEntity> selectById(@PathVariable("id") Long id) throws NullPointerException {
         return ${tableName}Service.selectById(id);
     }
 
     @PostMapping("updateByCondition")
-    public R<Integer> updateByCondition(@RequestBody ${firstUpTableName}Request request) {
+    public R<Integer> updateByCondition(@RequestBody ${firstUpTableName}RequestEntity request) {
         return ${tableName}Service.updateByCondition(request);
     }
 
     @PostMapping("updateBatch")
-    public R<Integer> updateBatch(@RequestBody List<${firstUpTableName}Request> request) {
+    public R<Integer> updateBatch(@RequestBody List<${firstUpTableName}RequestEntity> request) {
         return ${tableName}Service.updateBatch(request);
     }
 
     @PostMapping("insert")
-    public R<Integer> insert(@RequestBody ${firstUpTableName}Request request) {
+    public R<Integer> insert(@RequestBody ${firstUpTableName}RequestEntity request) {
         return ${tableName}Service.insert(request);
     }
 
     @PostMapping("insertBatch")
-    public R<Integer> insertBatch(@RequestBody List<${firstUpTableName}Request> request) {
+    public R<Integer> insertBatch(@RequestBody List<${firstUpTableName}RequestEntity> request) {
         return ${tableName}Service.insertBatch(request);
     }
 
     @PostMapping("deleteById")
-    public R<Integer> deleteById(@RequestBody ${firstUpTableName}Request request) {
+    public R<Integer> deleteById(@RequestBody ${firstUpTableName}RequestEntity request) {
         return ${tableName}Service.deleteById(request);
     }
 
     @PostMapping("deleteByCondition")
-    public R<Integer> deleteByCondition(@RequestBody ${firstUpTableName}Request request) {
+    public R<Integer> deleteByCondition(@RequestBody ${firstUpTableName}RequestEntity request) {
         return ${tableName}Service.deleteByCondition(request);
     }
 }

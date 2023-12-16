@@ -1,0 +1,19 @@
+package ${packageName}.entity.request.page;
+
+
+import ${packageName}.entity.request.${firstUpTableName}RequestEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * @author jinyongbin
+ * @since  $date.get('yyyy-MM-dd HH:mm:ss')
+ */
+
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class ${firstUpTableName}PageRequestEntity extends ${firstUpTableName}RequestEntity {
+    private Long page;
+    private Long size;
+}
+

@@ -7,10 +7,10 @@ import ${packageName}.entity.${firstUpTableName}Entity;
 import ${packageName}.convert.${firstUpTableName}Convert;
 import ${packageName}.mapper.${firstUpTableName}Mapper;
 import ${packageName}.service.${firstUpTableName}Service;
-import ${packageName}.entity.request.${firstUpTableName}PageRequest;
-import ${packageName}.entity.ResponseEntity.R;
-import ${packageName}.entity.request.base.${firstUpTableName}Request;
-import ${packageName}.entity.response.${firstUpTableName}Response;
+import ${packageName}.entity.request.page.${firstUpTableName}PageRequestEntity;
+import ${packageName}.entity.common.R;
+import ${packageName}.entity.request.${firstUpTableName}RequestEntity;
+import ${packageName}.entity.response.${firstUpTableName}ResponseEntity;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
@@ -33,46 +33,46 @@ public class ${firstUpTableName}ServiceImpl implements ${firstUpTableName}Servic
     private final SqlSessionTemplate sqlSessionTemplate;
 
     @Override
-    public R<${firstUpTableName}Response> selectByCondition(${firstUpTableName}Request request) throws NullPointerException {
+    public R<${firstUpTableName}ResponseEntity> selectByCondition(${firstUpTableName}RequestEntity request) throws NullPointerException {
         ${firstUpTableName}Mapper mapper = sqlSessionTemplate.getMapper(${firstUpTableName}Mapper.class);
-        List<${firstUpTableName}> ${firstLoTableName} = mapper.selectByCondition(${firstUpTableName}Convert.INSTANCE.reqToEntity(request));
-        ${firstUpTableName} result = ${firstLoTableName}.stream().findFirst().orElseThrow(() -> new NullPointerException('NO DATA'));
+        List<${firstUpTableName}Entity> ${firstLoTableName} = mapper.selectByCondition(${firstUpTableName}Convert.INSTANCE.reqToDo(request));
+        ${firstUpTableName}Entity result = ${firstLoTableName}.stream().findFirst().orElseThrow(() -> new NullPointerException("NO DATA"));
         return R.ok(${firstUpTableName}Convert.INSTANCE.doToResp(result));
     }
 
     @Override
-    public R<${firstUpTableName}Response> selectById(Long id) throws NullPointerException {
-        ${firstUpTableName}Request ${firstLoTableName}Request = new ${firstUpTableName}Request();
-        ${firstLoTableName}Request.setId(id);
-        return selectByCondition(${firstLoTableName}Request);
+    public R<${firstUpTableName}ResponseEntity> selectById(Long id) throws NullPointerException {
+        ${firstUpTableName}RequestEntity ${firstLoTableName}RequestEntity = new ${firstUpTableName}RequestEntity();
+        ${firstLoTableName}RequestEntity.setId(id);
+        return selectByCondition(${firstLoTableName}RequestEntity);
     }
 
     @Override
-    public R<Page<${firstUpTableName}Response>> selectByPage(${firstUpTableName}PageRequest request) throws NullPointerException {
-        ${firstUpTableName} ${firstLoTableName} = ${firstUpTableName}Convert.INSTANCE.reqToEntity(request);
+    public R<Page<${firstUpTableName}ResponseEntity>> selectByPage(${firstUpTableName}PageRequestEntity request) throws NullPointerException {
+        ${firstUpTableName}Entity ${firstLoTableName} = ${firstUpTableName}Convert.INSTANCE.reqToDo(request);
         ${firstUpTableName}Mapper mapper = sqlSessionTemplate.getMapper(${firstUpTableName}Mapper.class);
-        Page<${firstUpTableName}> page = new Page<>(request.getPage(), request.getSize(), mapper.selectCount(new QueryWrapper<>()));
-        Page<${firstUpTableName}> doPage = mapper.selectByConditionPage(${firstLoTableName}, page);
+        Page<${firstUpTableName}Entity> page = new Page<>(request.getPage(), request.getSize(), mapper.selectCount(new QueryWrapper<>()));
+        Page<${firstUpTableName}Entity> doPage = mapper.selectByConditionPage(${firstLoTableName}, page);
         if (CollectionUtils.isEmpty(doPage.getRecords())) {
-            throw new NullPointerException('NO DATA');
+            throw new NullPointerException("NO DATA");
         }
         return R.ok(${firstUpTableName}Convert.INSTANCE.doPageToRespPage(doPage));
     }
 
     @Override
-    public R<Integer> updateByCondition(${firstUpTableName}Request request) {
+    public R<Integer> updateByCondition(${firstUpTableName}RequestEntity request) {
         ${firstUpTableName}Mapper mapper = sqlSessionTemplate.getMapper(${firstUpTableName}Mapper.class);
-        return R.ok(mapper.updateById(${firstUpTableName}Convert.INSTANCE.reqToEntity(request)));
+        return R.ok(mapper.updateById(${firstUpTableName}Convert.INSTANCE.reqToDo(request)));
     }
 
     @Override
-    public R<Integer> updateBatch(List<${firstUpTableName}Request> request) {
+    public R<Integer> updateBatch(List<${firstUpTableName}RequestEntity> request) {
         ${firstUpTableName}Mapper mapper = sqlSessionTemplate.getMapper(${firstUpTableName}Mapper.class);
-        return R.ok(mapper.updateBatch(${firstUpTableName}Convert.INSTANCE.reqListToEntityList(request)));
+        return R.ok(mapper.updateBatch(${firstUpTableName}Convert.INSTANCE.reqListToDoList(request)));
     }
 
     @Override
-    public R<Integer> deleteByCondition(${firstUpTableName}Request request) {
+    public R<Integer> deleteByCondition(${firstUpTableName}RequestEntity request) {
         if (Objects.nonNull(request.getId())) {
             return deleteById(request);
         }
@@ -80,31 +80,31 @@ public class ${firstUpTableName}ServiceImpl implements ${firstUpTableName}Servic
     }
 
     @Override
-    public R<Integer> deleteById(${firstUpTableName}Request request) {
+    public R<Integer> deleteById(${firstUpTableName}RequestEntity request) {
         ${firstUpTableName}Mapper mapper = sqlSessionTemplate.getMapper(${firstUpTableName}Mapper.class);
         return R.ok(mapper.deleteById(request.getId()));
     }
 
     @Override
-    public R<Integer> deleteBatch(List<${firstUpTableName}Request> request) {
+    public R<Integer> deleteBatch(List<${firstUpTableName}RequestEntity> request) {
         try {
-            List<Long> ids = request.stream().map(${firstUpTableName}Request::getId).collect(Collectors.toList());
+            List<Long> ids = request.stream().map(${firstUpTableName}RequestEntity::getId).collect(Collectors.toList());
             ${firstUpTableName}Mapper mapper = sqlSessionTemplate.getMapper(${firstUpTableName}Mapper.class);
             return R.ok(mapper.deleteBatchIds(ids));
         } catch (Exception e) {
-            return R.error("删除异常");
+            return R.error("delete error");
         }
     }
 
     @Override
-    public R<Integer> insert(${firstUpTableName}Request request) {
+    public R<Integer> insert(${firstUpTableName}RequestEntity request) {
         ${firstUpTableName}Mapper mapper = sqlSessionTemplate.getMapper(${firstUpTableName}Mapper.class);
-        return R.ok(mapper.insert(${firstUpTableName}Convert.INSTANCE.reqToEntity(request)));
+        return R.ok(mapper.insert(${firstUpTableName}Convert.INSTANCE.reqToDo(request)));
     }
 
     @Override
-    public R<Integer> insertBatch(List<${firstUpTableName}Request> request) {
+    public R<Integer> insertBatch(List<${firstUpTableName}RequestEntity> request) {
         ${firstUpTableName}Mapper mapper = sqlSessionTemplate.getMapper(${firstUpTableName}Mapper.class);
-        return R.ok(mapper.insertBatch(${firstUpTableName}Convert.INSTANCE.reqListToEntityList(request)));
+        return R.ok(mapper.insertBatch(${firstUpTableName}Convert.INSTANCE.reqListToDoList(request)));
     }
 }

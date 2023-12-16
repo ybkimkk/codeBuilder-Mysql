@@ -1,1 +1,21 @@
+package ${packageName}.entity.request;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 #parse("/vms/common/set.vm")
+#parse("/vms/common/macro.vm")
+#entityImport()
+/**
+ * @author jinyongbin
+ * @since  $date.get('yyyy-MM-dd HH:mm:ss')
+ */
+
+@Data
+public class ${firstUpTableName}RequestEntity {
+    #foreach ($item in $tableInfo)
+        #getSqlToJavaType($item)
+    #end
+}
+
+
+

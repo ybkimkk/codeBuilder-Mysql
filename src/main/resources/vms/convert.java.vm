@@ -1,0 +1,64 @@
+package ${packageName}.convert;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import ${packageName}.entity.${firstUpTableName}Entity;
+import ${packageName}.entity.response.${firstUpTableName}ResponseEntity;
+import ${packageName}.entity.request.${firstUpTableName}RequestEntity;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
+import java.util.List;
+
+/**
+ * @author jinyongbin
+ * @since  $date.get('yyyy-MM-dd HH:mm:ss')
+ */
+
+@Mapper
+public interface ${firstUpTableName}Convert {
+    ${firstUpTableName}Convert INSTANCE = Mappers.getMapper(${firstUpTableName}Convert.class);
+
+    //do转response对象
+    ${firstUpTableName}ResponseEntity doToResp(${firstUpTableName}Entity arg);
+
+    List<${firstUpTableName}ResponseEntity> doListToRespList(List<${firstUpTableName}Entity> arg);
+
+    Page<${firstUpTableName}ResponseEntity> doPageToRespPage(Page<${firstUpTableName}Entity> arg);
+
+    //do转request对象
+    ${firstUpTableName}RequestEntity doToReq(${firstUpTableName}Entity arg);
+
+    List<${firstUpTableName}RequestEntity> doListToReqList(List<${firstUpTableName}Entity> arg);
+
+    Page<${firstUpTableName}RequestEntity> doPageToReqPage(Page<${firstUpTableName}Entity> arg);
+
+    //request转response对象
+    ${firstUpTableName}ResponseEntity reqToResp(${firstUpTableName}RequestEntity arg);
+
+    List<${firstUpTableName}ResponseEntity> reqListToRespList(List<${firstUpTableName}RequestEntity> arg);
+
+    Page<${firstUpTableName}ResponseEntity> reqPageToRespPage(Page<${firstUpTableName}RequestEntity> arg);
+
+    //request转do对象
+    ${firstUpTableName}Entity reqToDo(${firstUpTableName}RequestEntity arg);
+
+    List<${firstUpTableName}Entity> reqListToDoList(List<${firstUpTableName}RequestEntity> arg);
+
+    Page<${firstUpTableName}Entity> reqPageToDoPage(Page<${firstUpTableName}RequestEntity> arg);
+
+    //response转do对象
+    ${firstUpTableName}Entity respToDo(${firstUpTableName}ResponseEntity arg);
+
+    List<${firstUpTableName}Entity> respListToDoList(List<${firstUpTableName}ResponseEntity> arg);
+
+    Page<${firstUpTableName}Entity> respPageToDoPage(Page<${firstUpTableName}ResponseEntity> arg);
+
+    //response转request对象
+    ${firstUpTableName}RequestEntity respToReq(${firstUpTableName}ResponseEntity arg);
+
+    List<${firstUpTableName}RequestEntity> respListToReqList(List<${firstUpTableName}ResponseEntity> arg);
+
+    Page<${firstUpTableName}RequestEntity> respPageToReqPage(Page<${firstUpTableName}ResponseEntity> arg);
+}
+

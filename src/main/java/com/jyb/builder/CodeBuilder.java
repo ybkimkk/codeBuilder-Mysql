@@ -29,6 +29,16 @@ public class CodeBuilder {
 
     private final EntityHandler entityHandler;
 
+    private final ResponseEntityHandler responseEntityHandler;
+
+    private final RequestEntityHandler requestEntityHandler;
+
+    private final PageRequestEntityHandler pageRequestEntityHandler;
+
+    private final ConvertHandler convertHandler;
+
+    private final RHandler rHandler;
+
     @Value("${build}")
     private List<String> build;
 
@@ -40,6 +50,12 @@ public class CodeBuilder {
         map.put("service", serviceHandler);
         map.put("mapper", mapperHandler);
         map.put("entity", entityHandler);
+        map.put("requestEntity", requestEntityHandler);
+        map.put("pageRequestEntity", pageRequestEntityHandler);
+        map.put("responseEntity", responseEntityHandler);
+        map.put("convert", convertHandler);
+        map.put("r", rHandler);
+
 
         if (build.isEmpty()) {
             map.forEach((key, value) -> {

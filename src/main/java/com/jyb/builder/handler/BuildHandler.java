@@ -6,6 +6,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.tools.ToolContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -30,6 +31,9 @@ public abstract class BuildHandler {
 
     @Autowired
     protected Tool tool;
+
+    @Value("${mysql.table}" )
+    protected String tableName;
 
     protected void checkParentFile(String path) {
         File file = new File(path);

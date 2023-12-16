@@ -1,10 +1,6 @@
 #macro(getSqlToJavaType $param)
-
     #set($typeName = $param.getTypeName())
     #set($columnName = $tool.firstStrLower($param.getColumnName()))
-    #if($param.getPrimaryKey())
-    @TableId
-    #end
     #if($typeName.equals("INT")||$typeName.equals("TINYINT")||$typeName.equals("SMALLINT")||$typeName.equals(
         "MEDIUMINT")||$typeName.equals("BIGINT"))
     private Long $columnName;
@@ -15,6 +11,12 @@
     private Date $columnName;
     #else
     private String $columnName;
+    #end
+#end
+
+#macro(getTablePrimaryKey $param)
+    #if($param.getPrimaryKey())
+    @TableId
     #end
 #end
 

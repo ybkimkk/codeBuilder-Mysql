@@ -2,7 +2,6 @@ package ${packageName}.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import com.baomidou.mybatisplus.annotation.TableId;
 #parse("/vms/common/set.vm")
 #parse("/vms/common/macro.vm")
@@ -12,11 +11,11 @@ import com.baomidou.mybatisplus.annotation.TableId;
  * @since  $date.get('yyyy-MM-dd HH:mm:ss')
  */
 
-@EqualsAndHashCode(callSuper = false)
 @Data
 @TableName("${tableName}")
 public class ${firstUpTableName}Entity {
     #foreach ($item in $tableInfo)
+        #getTablePrimaryKey($item)
         #getSqlToJavaType($item)
     #end
 }

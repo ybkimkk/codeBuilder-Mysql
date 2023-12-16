@@ -1,1 +1,17 @@
+package ${packageName}.entity.response;
+
+import lombok.Data;
 #parse("/vms/common/set.vm")
+#parse("/vms/common/macro.vm")
+#entityImport()
+/**
+ * @author jinyongbin
+ * @since  $date.get('yyyy-MM-dd HH:mm:ss')
+ */
+
+@Data
+public class ${firstUpTableName}ResponseEntity {
+    #foreach ($item in $tableInfo)
+        #getSqlToJavaType($item)
+    #end
+}

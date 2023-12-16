@@ -1,5 +1,5 @@
-packageName: com.keyboard
-build: entity
+packageName: com.keyboard.builder_test
+build:
 
 mysql:
   host: localhost

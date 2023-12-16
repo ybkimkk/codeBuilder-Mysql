@@ -3,10 +3,10 @@ package ${packageName}.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import ${packageName}.entity.request.${firstUpTableName}PageRequest;
-import ${packageName}.entity.response.${firstUpTableName}Response;
-import ${packageName}.entity.globalEntity.R;
-import ${packageName}.entity.request.base.${firstUpTableName}Request;
+import ${packageName}.entity.request.page.${firstUpTableName}PageRequestEntity;
+import ${packageName}.entity.response.${firstUpTableName}ResponseEntity;
+import ${packageName}.entity.common.R;
+import ${packageName}.entity.request.${firstUpTableName}RequestEntity;
 
 import java.util.List;
 
@@ -16,24 +16,24 @@ import java.util.List;
  */
 
 public interface ${firstUpTableName}Service {
-    R<${firstUpTableName}Response> selectByCondition(${firstUpTableName}Request request) throws NullPointerException;
+    R<${firstUpTableName}ResponseEntity> selectByCondition(${firstUpTableName}RequestEntity request) throws NullPointerException;
 
-    R<${firstUpTableName}Response> selectById(Integer request) throws NullPointerException;
+    R<${firstUpTableName}ResponseEntity> selectById(Long request) throws NullPointerException;
 
-    R<Page<${firstUpTableName}Response>> selectByPage(${firstUpTableName}PageRequest request) throws NullPointerException;
+    R<Page<${firstUpTableName}ResponseEntity>> selectByPage(${firstUpTableName}PageRequestEntity request) throws NullPointerException;
 
-    R<Integer> updateByCondition(${firstUpTableName}Request request);
+    R<Integer> updateByCondition(${firstUpTableName}RequestEntity request);
 
-    R<Integer>  updateBatch(List<${firstUpTableName}Request> request);
+    R<Integer>  updateBatch(List<${firstUpTableName}RequestEntity> request);
 
-    R<Integer>  deleteByCondition(${firstUpTableName}Request request);
+    R<Integer>  deleteByCondition(${firstUpTableName}RequestEntity request);
 
-    R<Integer>  deleteById(${firstUpTableName}Request request);
+    R<Integer>  deleteById(${firstUpTableName}RequestEntity request);
 
-    R<Integer>  deleteBatch(List<${firstUpTableName}Request> request);
+    R<Integer>  deleteBatch(List<${firstUpTableName}RequestEntity> request);
 
-    R<Integer>  insert(${firstUpTableName}Request request);
+    R<Integer>  insert(${firstUpTableName}RequestEntity request);
 
-    R<Integer>  insertBatch(List<${firstUpTableName}Request> request);
+    R<Integer>  insertBatch(List<${firstUpTableName}RequestEntity> request);
 }
 

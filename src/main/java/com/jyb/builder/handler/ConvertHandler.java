@@ -7,14 +7,12 @@ import java.io.IOException;
 /**
  * @author jinyongbin
  * @version 1.0
- * @since 2023/12/15
+ * @since 2023/12/16
  */
 @Component
-public class ControllerHandler extends BuildHandler {
-
-
+public class ConvertHandler extends BuildHandler{
     @Override
     public void operate() throws IOException {
-        super.operate("controller");
+        super.operate("convert");
     }
 }
