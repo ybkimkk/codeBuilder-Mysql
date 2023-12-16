@@ -1,6 +1,4 @@
 packageName: com.keyboard.builder_test
-build:
-
 mysql:
   host: localhost
   port: 3306

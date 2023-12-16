@@ -24,16 +24,17 @@ import java.io.IOException;
 public abstract class BuildHandler {
 
     @Autowired
-    protected VelocityEngine velocityEngine;
+    private VelocityEngine velocityEngine;
 
     @Autowired
-    protected ToolContext toolContext;
+    private ToolContext toolContext;
 
     @Autowired
     protected Tool tool;
 
     @Value("${mysql.table}" )
     protected String tableName;
+
 
     protected void checkParentFile(String path) {
         File file = new File(path);
@@ -43,11 +44,11 @@ public abstract class BuildHandler {
         }
     }
 
-    protected void operate(String file) throws IOException {
-        String path = tool.getFile(file);
-        checkParentFile(path);
-        Template template = velocityEngine.getTemplate("vms/" + file + ".java.vm");
-        FileWriter fw = new FileWriter(path);
+    protected void operate(String path, String vmFile) throws IOException {
+        String buildPath = System.getProperty("user.dir" ) + "/builder" + path;
+        checkParentFile(buildPath);
+        Template template = velocityEngine.getTemplate("vms/" + vmFile);
+        FileWriter fw = new FileWriter(buildPath);
         template.merge(toolContext, fw);
         fw.close();
     }

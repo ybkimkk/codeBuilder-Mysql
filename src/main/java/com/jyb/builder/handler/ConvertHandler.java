@@ -10,9 +10,10 @@ import java.io.IOException;
  * @since 2023/12/16
  */
 @Component
-public class ConvertHandler extends BuildHandler{
+public class ConvertHandler extends BuildHandler {
+
     @Override
     public void operate() throws IOException {
-        super.operate("convert");
+        super.operate("/convert/" + tool.firstStrUpper(tableName) + "Convert.java", "convert.java.vm" );
     }
 }

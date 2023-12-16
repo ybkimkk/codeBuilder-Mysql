@@ -1,9 +1,7 @@
 package com.jyb.builder.handler;
 
-import org.apache.velocity.Template;
 import org.springframework.stereotype.Component;
 
-import java.io.FileWriter;
 import java.io.IOException;
 
 /**
@@ -16,11 +14,6 @@ public class RHandler extends BuildHandler {
 
     @Override
     public void operate() throws IOException {
-        String path = System.getProperty("user.dir" ) + "/entity/common/R.java";
-        super.checkParentFile(path);
-        Template template = velocityEngine.getTemplate("vms/R.java.vm" );
-        FileWriter fw = new FileWriter(path);
-        template.merge(toolContext, fw);
-        fw.close();
+        super.operate("/entity/common/R.java", "R.java.vm" );
     }
 }

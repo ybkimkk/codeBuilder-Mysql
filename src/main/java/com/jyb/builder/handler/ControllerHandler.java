@@ -12,9 +12,8 @@ import java.io.IOException;
 @Component
 public class ControllerHandler extends BuildHandler {
 
-
     @Override
     public void operate() throws IOException {
-        super.operate("controller");
+        super.operate("/controller/" + tool.firstStrUpper(tableName) + "Controller.java", "controller.java.vm" );
     }
 }

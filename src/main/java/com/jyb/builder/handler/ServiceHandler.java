@@ -14,6 +14,7 @@ public class ServiceHandler extends BuildHandler {
 
     @Override
     public void operate() throws IOException {
-        super.operate("service");
+        super.operate("/service/" + tool.firstStrUpper(tableName) + "Service.java", "service.java.vm" );
+
     }
 }

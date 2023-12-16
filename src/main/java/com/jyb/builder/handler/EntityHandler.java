@@ -10,9 +10,10 @@ import java.io.IOException;
  * @since 2023/12/16
  */
 @Component
-public class EntityHandler extends BuildHandler{
+public class EntityHandler extends BuildHandler {
+
     @Override
     public void operate() throws IOException {
-        super.operate("entity");
+        super.operate("/entity/" + tool.firstStrUpper(tableName) + "Entity.java", "entity.java.vm" );
     }
 }

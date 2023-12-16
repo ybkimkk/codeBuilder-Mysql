@@ -11,8 +11,9 @@ import java.io.IOException;
  */
 @Component
 public class MapperHandler extends BuildHandler {
+
     @Override
     public void operate() throws IOException {
-        super.operate("mapper");
+        super.operate("/mapper/" + tool.firstStrUpper(tableName) + "Mapper.java", "mapper.java.vm" );
     }
 }
