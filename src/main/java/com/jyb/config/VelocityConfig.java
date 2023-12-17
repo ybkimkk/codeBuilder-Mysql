@@ -68,6 +68,7 @@ public class VelocityConfig {
         List<TableInfo> tableInfo = getTableInfo();
         context.put("tableInfo", tableInfo);
         context.put("tableName", tableName);
+        context.put("database", database);
         context.put("packageName", packageName);
         context.put("tool", tool);
         context.put("import", tableInfo.stream().map(TableInfo::getTypeName).collect(Collectors.toSet()));
@@ -88,6 +89,7 @@ public class VelocityConfig {
             tableInfo.setColumnName(columns.getString("COLUMN_NAME"));
             tableInfo.setTypeName(columns.getString("TYPE_NAME"));
             tableInfo.setColumnSize(columns.getInt("COLUMN_SIZE"));
+            tableInfo.setJavaType(sqlTypeToJavaType(columns.getString("TYPE_NAME")));
             tableInfos.add(tableInfo);
         }
         ResultSet primaryKeys = metaData.getPrimaryKeys(null, null, tableName);
@@ -108,4 +110,47 @@ public class VelocityConfig {
         return tableInfos;
     }
 
+    private String sqlTypeToJavaType(String sqlType) {
+        String javaType = "";
+        switch (sqlType) {
+            case "INT":
+            case "BIGINT":
+            case "SMALLINT":
+            case "TINYINT":
+                javaType = "Integer";
+                break;
+            case "FLOAT":
+                javaType = "Float";
+                break;
+            case "DOUBLE":
+                javaType = "Double";
+                break;
+            case "DECIMAL":
+                javaType = "java.math.BigDecimal";
+                break;
+            case "VARCHAR":
+            case "CHAR":
+            case "TEXT":
+            case "LONGTEXT":
+            case "JSON":
+                javaType = "String";
+                break;
+            case "DATE":
+            case "TIME":
+            case "DATETIME":
+                javaType = "java.sql.Date";
+                break;
+            case "BLOB":
+            case "LONGBLOB":
+                javaType = "byte[]";
+                break;
+            case "BOOLEAN":
+                javaType = "Boolean";
+                break;
+            default:
+                javaType = "Unknown"; // 对于未知类型，你可以返回一个默认值或者抛出异常
+                break;
+        }
+        return javaType;
+    }
 }

@@ -1,10 +1,7 @@
 package com.jyb.builder.handler;
 
-import org.apache.velocity.Template;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.FileWriter;
 import java.io.IOException;
 
 /**

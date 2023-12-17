@@ -12,5 +12,6 @@ public class TableInfo {
     private String columnName;
     private String typeName;
     private Integer columnSize;
+    private String javaType;
     private Boolean primaryKey = false;
 }

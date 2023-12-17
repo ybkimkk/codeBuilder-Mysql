@@ -4,8 +4,6 @@ import com.google.common.base.CaseFormat;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-
 /**
  * @author jinyongbin
  * @version 1.0

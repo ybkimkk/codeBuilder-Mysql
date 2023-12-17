@@ -1,0 +1,81 @@
+#parse("/vms/common/set.vm")
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${packageName}.mapper.${firstUpTableName}Mapper">
+
+    <resultMap type="${packageName}.entity.${firstUpTableName}Entity" id="${firstUpTableName}Map">
+        #foreach(${info} in ${tableInfo})
+        <result property="${tool.firstStrLower(${info.getColumnName()})}" column="${info.getColumnName()}"/>
+        #end
+    </resultMap>
+
+    <sql id="base_column">
+        #foreach(${info} in ${tableInfo})
+        `${info.getColumnName()}`#if($foreach.hasNext),#end
+        #end
+    </sql>
+
+    <sql id="table_name">`${database}`.`${tableName}`</sql>
+
+    <sql id="base_where">
+        <where>
+            #foreach(${info} in ${tableInfo})
+            <if test="arg.${tool.firstStrLower(${info.getColumnName()})} != null#if(${info.getJavaType().equals("String")}) and arg.${tool.firstStrLower(${info.getColumnName()})} != ''#end">
+                and `${info.getColumnName()}` = #{arg.${tool.firstStrLower(${info.getColumnName()})}}
+            </if>
+            #end
+        </where>
+    </sql>
+
+    <select id="selectByCondition" resultMap="${firstUpTableName}Map">
+        select
+        <include refid="base_column"/>
+        from <include refid="table_name"/>
+        <include refid="base_where"/>
+    </select>
+
+    <select id="selectByConditionPage" resultMap="${firstUpTableName}Map">
+        select
+        <include refid="base_column"/>
+        from <include refid="table_name"/>
+        <include refid="base_where"/>
+    </select>
+
+    <delete id="deleteByCondition">
+        delete from <include refid="table_name"/>
+        <include refid="base_where"/>
+    </delete>
+
+    <update id="updateBatch">
+        <foreach collection="arg" item="item">
+            update <include refid="table_name"/>
+            <set>
+            #foreach(${info} in ${tableInfo})
+                <if test="arg.${tool.firstStrLower(${info.getColumnName()})} != null#if(${info.getJavaType().equals("String")}) and arg.${tool.firstStrLower(${info.getColumnName()})} != ''#end">
+                    and `${info.getColumnName()} `= #{arg.${tool.firstStrLower(${info.getColumnName()})}}#if($foreach.hasNext),#end
+                </if>
+            #end
+            </set>
+            <where>id = #{item.id}</where>
+        </foreach>
+    </update>
+
+    <insert id="insertByCondition" keyProperty="id" parameterType="${packageName}.entity.${firstUpTableName}Entity" useGeneratedKeys="true">
+        insert into <include refid="table_name"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #foreach(${info} in ${tableInfo})
+                <if test="arg.${tool.firstStrLower(${info.getColumnName()})} != null#if(${info.getJavaType().equals("String")}) and arg.${tool.firstStrLower(${info.getColumnName()})} != ''#end">
+                    `${info.getColumnName()}`,
+                </if>
+            #end
+        </trim>
+        <trim prefix="values (" suffix=")" >
+            #foreach(${info} in ${tableInfo})
+                <if test="arg.${tool.firstStrLower(${info.getColumnName()})} != null#if(${info.getJavaType().equals("String")}) and arg.${tool.firstStrLower(${info.getColumnName()})} != ''#end">
+                    #{arg.${tool.firstStrLower(${info.getColumnName()})}}#if($foreach.hasNext),#end
+                </if>
+            #end
+        </trim>
+    </insert>
+</mapper>
+

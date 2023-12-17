@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 public interface ${firstUpTableName}Service {
-    R<${firstUpTableName}ResponseEntity> selectByCondition(${firstUpTableName}RequestEntity request) throws NullPointerException;
+    R<List<${firstUpTableName}ResponseEntity>> selectByCondition(${firstUpTableName}RequestEntity request) throws NullPointerException;
 
     R<${firstUpTableName}ResponseEntity> selectById(Long request) throws NullPointerException;
 
@@ -26,8 +26,6 @@ public interface ${firstUpTableName}Service {
 
     R<Integer>  updateBatch(List<${firstUpTableName}RequestEntity> request);
 
-    R<Integer>  deleteByCondition(${firstUpTableName}RequestEntity request);
-
     R<Integer>  deleteById(${firstUpTableName}RequestEntity request);
 
     R<Integer>  deleteBatch(List<${firstUpTableName}RequestEntity> request);
@@ -35,5 +33,6 @@ public interface ${firstUpTableName}Service {
     R<Integer>  insert(${firstUpTableName}RequestEntity request);
 
     R<Integer>  insertBatch(List<${firstUpTableName}RequestEntity> request);
+
 }
 

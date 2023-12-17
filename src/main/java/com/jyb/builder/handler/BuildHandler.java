@@ -5,10 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.tools.ToolContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,18 +23,17 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public abstract class BuildHandler {
 
-    @Autowired
+    @Resource
     private VelocityEngine velocityEngine;
 
-    @Autowired
+    @Resource
     private ToolContext toolContext;
 
-    @Autowired
+    @Resource
     protected Tool tool;
 
     @Value("${mysql.table}" )
     protected String tableName;
-
 
     protected void checkParentFile(String path) {
         File file = new File(path);

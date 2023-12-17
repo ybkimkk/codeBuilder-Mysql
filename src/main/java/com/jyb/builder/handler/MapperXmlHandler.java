@@ -7,13 +7,13 @@ import java.io.IOException;
 /**
  * @author jinyongbin
  * @version 1.0
- * @since 2023/12/16
+ * @since 2023/12/17
  */
 @Component
-public class ResponseEntityHandler extends BuildHandler {
-
+public class MapperXmlHandler extends BuildHandler{
     @Override
     public void operate() throws IOException {
-        super.operate("/entity/response/" + tool.firstStrUpper(tableName) + "ResponseEntity.java", "responseEntity.java.vm" );
+        super.operate("/mapper/" + tool.firstStrUpper(tableName) + "Mapper.xml", "mapperXml.xml.vm" );
+
     }
 }

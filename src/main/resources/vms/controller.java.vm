@@ -25,7 +25,7 @@ public class ${firstUpTableName}Controller {
     private final ${firstUpTableName}Service ${tableName}Service;
 
     @PostMapping("selectByCondition")
-    public R<${firstUpTableName}ResponseEntity> selectByCondition(@RequestBody ${firstUpTableName}RequestEntity request) throws NullPointerException {
+    public R<List<${firstUpTableName}ResponseEntity>> selectByCondition(@RequestBody ${firstUpTableName}RequestEntity request) throws NullPointerException {
         return ${tableName}Service.selectByCondition(request);
     }
 
@@ -64,10 +64,6 @@ public class ${firstUpTableName}Controller {
         return ${tableName}Service.deleteById(request);
     }
 
-    @PostMapping("deleteByCondition")
-    public R<Integer> deleteByCondition(@RequestBody ${firstUpTableName}RequestEntity request) {
-        return ${tableName}Service.deleteByCondition(request);
-    }
 }
 
 
