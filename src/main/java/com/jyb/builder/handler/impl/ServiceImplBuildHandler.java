@@ -1,5 +1,6 @@
-package com.jyb.builder.handler;
+package com.jyb.builder.handler.impl;
 
+import com.jyb.builder.handler.BuildHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.io.IOException;
  * @since 2023/12/15
  */
 @Component
-public class ServiceImplHandler extends BuildHandler {
+public class ServiceImplBuildHandler extends BuildHandler {
 
     @Override
     public void operate() throws IOException {

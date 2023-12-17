@@ -1,5 +1,6 @@
-package com.jyb.builder.handler;
+package com.jyb.builder.handler.impl;
 
+import com.jyb.builder.handler.BuildHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -10,10 +11,10 @@ import java.io.IOException;
  * @since 2023/12/16
  */
 @Component
-public class ResponseEntityHandler extends BuildHandler {
+public class RBuildHandler extends BuildHandler {
 
     @Override
     public void operate() throws IOException {
-        super.operate("/entity/response/" + tool.firstStrUpper(tableName) + "ResponseEntity.java", "responseEntity.java.vm" );
+        super.operate("/entity/common/R.java", "R.java.vm" );
     }
 }

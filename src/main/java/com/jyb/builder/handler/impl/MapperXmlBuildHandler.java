@@ -1,5 +1,6 @@
-package com.jyb.builder.handler;
+package com.jyb.builder.handler.impl;
 
+import com.jyb.builder.handler.BuildHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.io.IOException;
  * @since 2023/12/17
  */
 @Component
-public class MapperXmlHandler extends BuildHandler{
+public class MapperXmlBuildHandler extends BuildHandler {
     @Override
     public void operate() throws IOException {
         super.operate("/mapper/" + tool.firstStrUpper(tableName) + "Mapper.xml", "mapperXml.xml.vm" );
